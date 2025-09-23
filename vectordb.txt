@@ -8,3 +8,21 @@ ring===  vector =>[0.476,-0.948983,0.0998,-0.92929] 768
 gemini-embedding-001
 
 pinecone db is used as a db 
+
+sentence ->  tokenization -> importants from sentence -> embedding -> gemini-2.0-flash -> output
+
+1. create a pinecone service 
+2. from docs get api key and start it by integrating api 
+3. create an index or  identifyy if made on pinecone db automatically `
+4. create a function of create memory where it will take input as a object of vector and metadata
+
+5. create a query function wwhich will search the database with parameters queryvector limit and metadata
+
+6. require the functions in socket 
+
+7. we will use embeddings from gemini memory creation for VEctor database and will be done in ai.service return response.embeddings[0].values
+
+ 
+8 now saving the response from ai in socketserver  and saved in pine cone db 
+
+9. we have to wquery the memory  and find the relatable stuffs for the new query 
