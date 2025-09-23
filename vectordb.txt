@@ -1,0 +1,10 @@
+suppose a word , Ring =>[isme array of no.]
+
+these no.s are >-1 and <+1
+
+ring===  vector =>[0.476,-0.948983,0.0998,-0.92929] 768
+
+
+gemini-embedding-001
+
+pinecone db is used as a db 
