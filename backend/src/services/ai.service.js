@@ -6,6 +6,11 @@ async function generateResponse(content) {
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
     contents: content,
+    config: {
+      temperature: 0.7, //value from (02 1)
+      systemInstruction: "you are aurora a chatbot",
+    },
+
   });
 
   return response.text;
