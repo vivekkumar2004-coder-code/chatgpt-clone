@@ -7,7 +7,14 @@ const messageModel = require("../models/message.model");
 const { createMemory, queryMemory } = require("../services/pinecone.service");
 const { text } = require("express");
 function initSocketServer(httpserver) {
-  const io = new Server(httpserver, {});
+  const io = new Server(httpserver, {
+    cors: {
+      origin: "http://localhost:5173",
+      credentials: true,
+      methods: ["GET", "POST"],
+      allowedHeaders: ["Content-Type", "Authorization"],
+    },
+  });
 
   io.use(async (socket, next) => {
     //SOCKET IO KA MIDDLEWARE
@@ -71,17 +78,16 @@ function initSocketServer(httpserver) {
         }),
         aiService.generateVector(messagePayload.content),
         //and create memory
-      
       ]);
-       await createMemory({
-          vectors,
-          messageId: message._id,
-          metadata: {
-            chat: messagePayload.chat,
-            user: socket.user._id,
-            text: messagePayload.content,
-          },
-        })
+      await createMemory({
+        vectors,
+        messageId: message._id,
+        metadata: {
+          chat: messagePayload.chat,
+          user: socket.user._id,
+          text: messagePayload.content,
+        },
+      });
 
       //querry the memory of 8271427135  ooptimizing with second 02
       /*
@@ -151,15 +157,17 @@ function initSocketServer(httpserver) {
           parts: [
             {
               text: `
-           these are some previous conversations that you can use to generate a response .
-           ${memory.map((item) => item.metadata.text).join("\n")}
-          `,
+
+                        these are some previous messages from the chat, use them to generate a response
+
+                        ${memory.map((item) => item.metadata.text).join("\n")}
+                        
+                        `,
             },
           ],
         },
       ];
 
-      console.log("ltm", ltm, "stm", stm);
 
       const response = await aiService.generateResponse([...ltm, ...stm]);
       /*
@@ -201,7 +209,3 @@ function initSocketServer(httpserver) {
 }
 
 module.exports = initSocketServer;
-
-
-
-
