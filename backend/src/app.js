@@ -2,7 +2,7 @@ const express = require("express");
 const cookieparser = require("cookie-parser");
 const app = express();
 const cors = require("cors");
-
+const path = require("path");
 
 const authRoutes = require("../src/routes/auth.routes");
 const chatRoutes = require("../src/routes/chat.route");
@@ -16,6 +16,7 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.static(path.join(__dirname, "../public")));
 
 //  using routes
 app.use("/api/auth", authRoutes);
